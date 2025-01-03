@@ -1,0 +1,7 @@
+project = "MintMyRWA"
+framework = "foundry"
+team = "state-space"
+# See more settings at https://docs.state.space/content/cli
+
+[[deployments]]
+name = "MyRWA"
