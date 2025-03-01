@@ -13,6 +13,7 @@
     "hardhat": "^2.22.17"
   },
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "^5.1.0"
+    "@openzeppelin/contracts-upgradeable": "^5.1.0",
+    "@state-space/hardhat": "^0.4.0"
   }
 }

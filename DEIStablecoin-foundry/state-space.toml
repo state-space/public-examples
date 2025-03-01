@@ -1,0 +1,52 @@
+# Sets the name of the project. 
+#
+# The project is created if it does not already exist.
+project = "DEIStablecoin-foundry"
+
+# If using State Space in a team, specify the team identifier.
+# By default, your personal account will be used.
+# team = ""
+
+# Sets the primary framework to use.
+# 
+# When setting a framework, contract sources and solc settings are 
+# automatically used when pushing code to State Space.
+# 
+# Optional. Supports "foundry" or "hardhat".
+framework = "foundry"
+
+# Specify paths to solc json output files.
+# If using a framework, this usually isn't necessary.
+# artifacts = []
+
+# Defines a deployment
+# 
+# Deployments are a set of concrete transactions and accounts. 
+# They are used as initial states when exploring your state space.
+# 
+# Deployments are recorded by running a script against a local EVM.
+# Deployments are currently only supported when using a framework.
+# [deployment.Main]
+
+# Command is a list of strings representing the command to run when 
+# recording this deployment. Ensure that your RPC endpoint points to
+# localhost:8545.
+# command = ["forge", "script", ...]
+
+# When using Foundry scripts, the scripts property may be used as a 
+# shorthand alternative to the command property.
+# The RPC url does not need to be specified when using this form.
+# scripts = [
+#    "name of or path to Foundry script", 
+# ]
+
+# When using Hardhat's Ignition, the modules property may be used as a 
+# shorthand alternative to the command property.
+# The RPC url does not need to be specified when using this form.
+# modules = [
+#    "path to Ignition module", 
+# ]
+
+# Specify the number of externally owned accounts (wallets) to use
+# in this deployment
+# accounts = 3

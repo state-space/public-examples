@@ -42,7 +42,7 @@ contract LERC20Upgradable is Initializable, ContextUpgradeable, ILERC20 {
         timelockPeriod = timelockPeriod_;
         losslessTurnOffTimestamp = 0;
         lossless = ILssController(lossless_);
-        isLosslessOn = true;
+        isLosslessOn = false;
     }
 
     // --- LOSSLESS modifiers ---
