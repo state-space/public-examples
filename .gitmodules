@@ -1,0 +1,6 @@
+[submodule "UnsafeExamples/NarrowTypeAssemblyVuln/DirtyVault/lib/forge-std"]
+	path = UnsafeExamples/NarrowTypeAssemblyVuln/DirtyVault/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "UnsafeExamples/NarrowTypeAssemblyVuln/DirtyERC20/lib/forge-std"]
+	path = UnsafeExamples/NarrowTypeAssemblyVuln/DirtyERC20/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
