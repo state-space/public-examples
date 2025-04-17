@@ -21,28 +21,29 @@ state-space push
 
 ## Design transaction sequence
 
-After authenticating, bavigate to your home dashboard at https://state.space/me and "Start a New Workbench". Rename it to `DirtyVaultProject`. 
-- From within Workbench, you should see the `DirtyVault` project appear in the **drop down** along with the source version you pushed via the CLI. Select the source version and it's folder tree will appear:
+After authenticating, navigate to your home dashboard at https://state.space/me and "Start a New Workbench". Rename it to `DirtyVaultProject`. 
+
+From within Workbench, you should see the `DirtyVault` project appear in the **drop down** along with the source version you pushed via the CLI. Select the source version and it's folder tree will appear:
 
 
 ![img](./images/SelectSourceVersion.png)
 
-- Expand the folder tree to expose all external functions. 
-- Drag an Empty Deployment to the canvas. Rename the deployment to whatever you like. 
+Expand the folder tree to expose all external functions and then drag an Empty Deployment to the canvas. Rename the deployment to whatever you like:
 
 
 ![img](./images/DragDeployment.png)
 
 
-To explore the state space, we'll need to set a sequence of transactions to explore. A typical functional flow for the VaultManager will be to first call the constructor, deposit and then withdraw. 
+To explore the state space, we'll need to set a sequence of transactions to explore. A typical functional flow for the VaultManager will be to deposit eth and then withdraw their balance. 
 
 For this example:
-- Claire will deploy the contract and have the admin role
-- Alice and Bob will call `deposit` and specify a VaultId (1 and 10 respectively - they can be any ID within the specified max vault size of 12). 
-- Bob will call withdrawPacked, and we will leave the packed byte data to act symbolically. 
+- Claire will deploy the contract and have the admin role (calls the `constructor`)
+- Alice and Bob will call `deposit` and specify a vaultId (in this case, we set it to 1 and 10 respectively - they can be any ID within the specified max vault size of 12). 
+- Bob will call `withdrawPacked`, and leave the packed byte data field blank to act symbolically. 
 
-By default all parameters and primitives are set to act symbolically unless a concrete value is specificed. State Space allows you to set concrete values where needed to help manage the world state and size of the state space to explore. Your final sequence should look like this:
+By default all parameters and primitives are set to act symbolically unless a concrete value is specificed. State Space allows you to set concrete values where needed to help manage the world state and size of the state space to explore. Without proper constraints, you can easily run into state space explosion and generate tens of thousands of states.
 
+ Your final sequence should look like this:
 
 ![img](./images/Sequence.png)
 
