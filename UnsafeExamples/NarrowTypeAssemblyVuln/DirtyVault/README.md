@@ -9,14 +9,16 @@ This is an example of a buggy VaultManager for storing ETH. The `withdrawPacked`
 
 ## Setup and Upload:
 
-- Create an account at https://state.space/sign-up
-- Clone the repo to a local folder
-- Install the State Space CLI using brew: `brew install state-space/state-space/cli`
-- From the main directory of the DirtyVault Foundry project, run the CLI command `state-space push` command to deploy the contract to your State Space acocunt:
+1. Create an account at https://state.space/sign-up
+2. Clone the repo to a local folder
+3. Install the State Space CLI using brew: `brew install state-space/state-space/cli`. Note: the Foundry project already has a state-space.toml file created from initializing the repo (`state-space init`).
+4. From the main directory of the DirtyVault Foundry project, run the CLI command `state-space push` command to deploy the contract to your State Space account:   
+
 ``` bash
 state-space push
 ```
-- You will be prompted to login using your State Space credentials.
+
+You will be prompted to login using your State Space credentials.
 
 
 ## Design transaction sequence
@@ -62,7 +64,7 @@ State Space will formally derive (via symbolic execution) all feasible execution
 
 Select the vulnerable path to analyze the state. Explore other paths and states as well. 
 
-### State Analysis
+## State Analysis
 
 Each transaction on the top row is interactive, and cycle through them to notice the difference in contract state and any state changes. 
 
@@ -86,11 +88,10 @@ How to locate the stateid in the URL:
 
 ![img](./images/stateid.png)
 
-### CLI command to Export reproducible Foundry test case 
+### Export via CLI command
 ```bash
 state-space export test <STATEID> -out <FOLDER>
 ```
-
 
 ## Experimental
 
