@@ -1,66 +1,98 @@
-## Foundry
+# Unsafe VaultManager
+This is an example of a buggy Vault manager for storing ETH. `withdrawPacked` function is vulnerable to unauthorized withdrawl and privalege escalation due to unsafe in-line assembly handling of uint8, vault ID, and a bool flag. 
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Vulnerability: 
 
-Foundry consists of:
+- `req` is a packed argument of VaultId and overrideFlag
+- If `flagByte` is neither 0x00 nor 0x01, the contract performs no access control checks before withdrawing. This means the attacker can withdraw from any vault by carefully crafting a value for `req`.
+- Attacker gains admin-only action or withdraw another user’s funds, without being the owner or admin.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Setup and Upload:
 
-## Documentation
+- Create an account at https://state.space/sign-up
+- Clone the repo to a local folder
+- Install the State Space CLI using brew: `brew install state-space/state-space/cli`
+- From the main directory of the DirtyVault Foundry project, run the CLI command `state-space push` command to deploy the contract to your State Space acocunt:
+``` bash
+state-space push
+```
+- You will be prompted to login using your State Space credentials.
 
-https://book.getfoundry.sh/
 
-## Usage
+## Design transaction sequence
 
-### Build
+After authenticating, bavigate to your home dashboard at https://state.space/me and "Start a New Workbench". Rename it to `DirtyVaultProject`. 
+- From within Workbench, you should see the `DirtyVault` project appear in the **drop down** along with the source version you pushed via the CLI. Select the source version and it's folder tree will appear:
 
-```shell
-$ forge build
+
+![img](./images/SelectSourceVersion.png)
+
+- Expand the folder tree to expose all external functions. 
+- Drag an Empty Deployment to the canvas. Rename the deployment to whatever you like. 
+
+
+![img](./images/DragDeployment.png)
+
+
+To explore the state space, we'll need to set a sequence of transactions to explore. A typical functional flow for the VaultManager will be to first call the constructor, deposit and then withdraw. 
+
+For this example:
+- Claire will deploy the contract and have the admin role
+- Alice and Bob will call `deposit` and specify a VaultId (1 and 10 respectively - they can be any ID within the specified max vault size of 12). 
+- Bob will call withdrawPacked, and we will leave the packed byte data to act symbolically. 
+
+By default all parameters and primitives are set to act symbolically unless a concrete value is specificed. State Space allows you to set concrete values where needed to help manage the world state and size of the state space to explore. Your final sequence should look like this:
+
+
+![img](./images/Sequence.png)
+
+Click the green "Play" icon to start the analysis. 
+
+
+## Review results:
+
+State Space will formally derive (via symbolic execution) all feasible execution paths and the valid, verified inputs that trigger them in the lower pane, representing the exact behavior of code. Because we use a full semantics model of the EVM to symbolically execute the bytecode, we can detect deep edge cases, and even bugs in within the Solidity compiler.  All test cases are validated with multiple references for precision. 
+
+11 paths (or possible states) will be discovered, with three succeeding. Scroll through the resulting paths (the test cases) to discover the actual behavior of the code. Each path is clickable for a deeper analysis. Below is a screenshot of a suspicious path:
+
+
+![img](./images/PathResults.png)
+
+
+Select the vulnerable path to analyze the state. Explore other paths and states as well. 
+
+### State Analysis
+
+Each transaction on the top row is interactive, and cycle through them to notice the difference in contract state and any state changes. 
+
+The state resulting from calling  `withdrawPacked` show the specific `req` byte32 value that could be used to gain admin privalege and drain Alice's account into Bob's account. 
+
+Since this vulnerability is related to dirty bits, you can also view the raw storage values change as you cycle through the transactions. 
+
+Decoded storage:
+
+![img](./images/StateAnalysisBug.png)
+
+Raw storage:
+
+![img](./images/RawState.png)
+
+## Export test case for a PoC,debugging, or test suite
+
+You can export the test case by either selecting the `Export Test` button or using the CLI and referencing the state id of the test case located in the URL. 
+
+How to locate the stateid in the URL:
+
+![img](./images/stateid.png)
+
+### CLI command to Export reproducible Foundry test case 
+```bash
+state-space export test <STATEID> -out <FOLDER>
 ```
 
-### Test
 
-```shell
-$ forge test
-```
+## Experiemental
 
-### Format
+Click the AI Description button, and it will use a reasoning model to analyze the test case and the security and risks associated with its behavior. It does not yet take full account of the full context of the source code, but we have upcoming features that will help make analysis easier:
 
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+![img](./images/AIDescription.png)
