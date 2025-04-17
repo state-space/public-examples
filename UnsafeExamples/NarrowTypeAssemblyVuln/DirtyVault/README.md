@@ -1,5 +1,5 @@
 # Unsafe VaultManager
-This is an example of a buggy Vault manager for storing ETH. `withdrawPacked` function is vulnerable to unauthorized withdrawl and privalege escalation due to unsafe in-line assembly handling of uint8, vault ID, and a bool flag. 
+This is an example of a buggy VaultManager for storing ETH. The `withdrawPacked` function is vulnerable to unauthorized withdrawl and access control due to an unsafe handling of a uint8, vault ID, and a bool flag within the assembly code. 
 
 ## Vulnerability: 
 
