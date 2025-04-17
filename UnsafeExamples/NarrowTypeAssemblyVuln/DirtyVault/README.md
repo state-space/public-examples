@@ -1,11 +1,11 @@
 # Unsafe VaultManager
-This is an example of a buggy VaultManager for storing ETH. The `withdrawPacked` function is vulnerable to unauthorized withdrawl and access control due to an unsafe handling of a uint8, vault ID, and a bool flag within the assembly code. 
+This is an example of a buggy VaultManager for storing ETH. The `withdrawPacked` function is vulnerable to unauthorized withdrawal and access control due to an unsafe handling of a uint8, vault ID, and a bool flag within the assembly code. 
 
 ## Vulnerability in `withdrawPacked(bytes32 req)`
 
-- `req` is a packed argument of `vaultId` and `overrideFlag`.
+- `req` is a 32-byte packed argument of `vaultId` (unit8) and `overrideFlag` (bool), where the last byte is the vault ID, and the second-last byte is a boolean override. 
 - If `flagByte` is neither 0x00 nor 0x01, the contract performs no access control checks before withdrawing. This means an attacker can withdraw from any vault by crafting a value for `req`.
-- An attacker can assume admin privalege and withdraw funds from another user stored within the VaultManager.
+- An attacker can assume admin privilege and withdraw funds from another user stored within the VaultManager.
 
 ## Setup and Upload:
 
@@ -43,7 +43,7 @@ For this example:
 - Alice and Bob will call `deposit` and specify a vaultId (in this case, we set it to 1 and 10 respectively - they can be any ID within the specified max vault size of 12). 
 - Bob will call `withdrawPacked`, and leave the packed byte data field blank to act symbolically. 
 
-By default all parameters and primitives are set to act symbolically unless a concrete value is specificed. State Space allows you to set concrete values where needed to help manage the world state and size of the state space to explore. Without proper constraints, you can easily run into state space explosion and generate tens of thousands of states.
+By default all parameters and primitives are set to act symbolically unless a concrete value is specified. State Space allows you to set concrete values where needed to help manage the world state and size of the state space to explore. Without proper constraints, you can easily run into state space explosion and generate tens of thousands of states.
 
  Your final sequence should look like this:
 
@@ -68,7 +68,7 @@ Select the vulnerable path to analyze the state. Explore other paths and states 
 
 Each transaction on the top row is interactive, and cycle through them to notice the difference in contract state and any state changes. 
 
-The state resulting from calling  `withdrawPacked` show the specific `req` byte32 value that could be used to gain admin privalege and drain Alice's account into Bob's account. 
+The state resulting from calling  `withdrawPacked` show the specific `req` byte32 value that could be used to gain admin privilege and drain Alice's account into Bob's account. 
 
 Since this vulnerability is related to dirty bits, you can also view the raw storage values change as you cycle through the transactions. 
 
