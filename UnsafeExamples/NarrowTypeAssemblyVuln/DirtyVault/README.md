@@ -1,11 +1,11 @@
 # Unsafe VaultManager
 This is an example of a buggy VaultManager for storing ETH. The `withdrawPacked` function is vulnerable to unauthorized withdrawl and access control due to an unsafe handling of a uint8, vault ID, and a bool flag within the assembly code. 
 
-## Vulnerability: 
+## Vulnerability in `withdrawPacked(bytes32 req)`
 
-- `req` is a packed argument of VaultId and overrideFlag
-- If `flagByte` is neither 0x00 nor 0x01, the contract performs no access control checks before withdrawing. This means the attacker can withdraw from any vault by carefully crafting a value for `req`.
-- Attacker gains admin-only action or withdraw another user’s funds, without being the owner or admin.
+- `req` is a packed argument of `vaultId` and `overrideFlag`.
+- If `flagByte` is neither 0x00 nor 0x01, the contract performs no access control checks before withdrawing. This means an attacker can withdraw from any vault by crafting a value for `req`.
+- An attacker can assume admin privalege and withdraw funds from another user stored within the VaultManager.
 
 ## Setup and Upload:
 
