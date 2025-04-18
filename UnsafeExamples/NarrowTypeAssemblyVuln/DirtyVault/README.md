@@ -27,13 +27,15 @@ After authenticating, navigate to your home dashboard at https://state.space/me 
 
 From within Workbench, you should see the `DirtyVault` project appear in the **drop down** along with the source version you pushed via the CLI. Select the source version and it's folder tree will appear:
 
+<img src="./images/SelectSourceVersion.png" alt="SelectSourceVersion" width="500">
 
-![img](./images/SelectSourceVersion.png)
 
 Expand the folder tree to expose all external functions and then drag an Empty Deployment to the canvas. Rename the deployment to whatever you like:
 
 
-![img](./images/DragDeployment.png)
+
+<img src="./images/DragDeployment.png" alt="Description" width="500">
+
 
 
 To explore the state space, we'll need to set a sequence of transactions to explore. A typical functional flow for the VaultManager will be to deposit eth and then withdraw their balance. 
