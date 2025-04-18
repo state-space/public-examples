@@ -1,5 +1,5 @@
 # Unsafe VaultManager
-This is an example of a buggy VaultManager for storing ETH. The `withdrawPacked` function is vulnerable to unauthorized withdrawal and access control due to an unsafe handling of a uint8, vault ID, and a bool flag within the assembly code. 
+This is an example of a buggy VaultManager for storing ETH. The `withdrawPacked` function is vulnerable to unauthorized withdrawal and access control due to an unsafe narrow type handling of the uint8, vault ID, and a bool flag values in assembly. This README will walk you through the steps of how to use the State Space tool to discover the behavior of the contract and uncover the bug. 
 
 ## Table of Contents
 - [Vulnerability in withdrawPacked](#vulnerability-in-withdrawpackedbytes32-req)
@@ -7,7 +7,7 @@ This is an example of a buggy VaultManager for storing ETH. The `withdrawPacked`
 - [Design Transaction Sequence](#design-transaction-sequence)
 - [Review Results](#review-results)
 - [State Analysis](#state-analysis)
-- [Export Test Case](#export-test-case-for-a-pocdebugging-or-test-suite)
+- [Exporting a Test Case (for PoC, Test Suite, Debugging)](#export-test-case-for-a-pocdebugging-or-test-suite)
 - [Experimental](#experimental)
 
 ## Vulnerability in `withdrawPacked(bytes32 req)`
