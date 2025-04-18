@@ -106,6 +106,6 @@ state-space export test <STATEID> -out <FOLDER>
 
 ## Experimental
 
-Click the AI Description button, and it will use a reasoning model to analyze the test case and the security and risks associated with its behavior. It does not yet take full account of the full context of the source code, but we have upcoming features that will help make analysis easier:
+Click the AI Description button, and it will use a reasoning model to analyze the test case (the actual verified executed code behavior) for security and risk (unlike LLMs and AI security scanners that analyze the code statically). This feature does not yet take full account of the full context of the source code, but we have upcoming features that will drastically improve these capabilities to search and assess the state space.
 
 ![img](./images/AIDescription.png)
